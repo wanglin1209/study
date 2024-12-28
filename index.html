@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小王同学的知识库</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-reader"></i> 小王同学的知识库</h1>
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+        
+        <div class="add-bookmark">
+            <input type="text" id="siteName" placeholder="网站名称">
+            <input type="text" id="siteUrl" placeholder="网站地址">
+            <select id="category">
+                <option value="未分类">选择分类</option>
+                <option value="学习资源">学习资源</option>
+                <option value="工具">工具</option>
+                <option value="文档">文档</option>
+                <option value="其他">其他</option>
+            </select>
+            <button onclick="addBookmark()"><i class="fas fa-plus"></i> 添加收藏</button>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="搜索收藏...">
+            <select id="categoryFilter">
+                <option value="all">所有分类</option>
+                <option value="未分类">未分类</option>
+                <option value="学习资源">学习资源</option>
+                <option value="工具">工具</option>
+                <option value="文档">文档</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+
+        <div class="bookmarks" id="bookmarksList">
+            <!-- 收藏的网站将在这里显示 -->
+        </div>
+    </div>
+
+    <script>
+        // 主题切换
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        // 加载主题设置
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function addBookmark() {
+            const name = document.getElementById('siteName').value;
+            const url = document.getElementById('siteUrl').value;
+            const category = document.getElementById('category').value;
+
+            if (!name || !url) {
+                alert('请输入网站名称和地址！');
+                return;
+            }
+
+            const bookmark = document.createElement('div');
+            bookmark.className = 'bookmark-item';
+            bookmark.dataset.category = category;
+            bookmark.innerHTML = `
+                <div class="bookmark-content">
+                    <img src="https://www.google.com/s2/favicons?domain=${url}" alt="icon" class="favicon">
+                    <div class="bookmark-info">
+                        <a href="${url}" target="_blank">${name}</a>
+                        <span class="category-tag">${category}</span>
+                    </div>
+                </div>
+                <div class="bookmark-actions">
+                    <button onclick="this.parentElement.parentElement.remove(); saveBookmarks()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('bookmarksList').appendChild(bookmark);
+
+            // 清空输入框
+            document.getElementById('siteName').value = '';
+            document.getElementById('siteUrl').value = '';
+            document.getElementById('category').value = '未分类';
+
+            saveBookmarks();
+        }
+
+        function saveBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            const bookmarks = [];
+            
+            bookmarksList.querySelectorAll('.bookmark-item').forEach(item => {
+                const link = item.querySelector('a');
+                const category = item.dataset.category;
+                bookmarks.push({
+                    name: link.textContent,
+                    url: link.href,
+                    category: category
+                });
+            });
+
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        function loadBookmarks() {
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            const bookmarksList = document.getElementById('bookmarksList');
+
+            bookmarks.forEach(bookmark => {
+                const bookmarkElement = document.createElement('div');
+                bookmarkElement.className = 'bookmark-item';
+                bookmarkElement.dataset.category = bookmark.category;
+                bookmarkElement.innerHTML = `
+                    <div class="bookmark-content">
+                        <img src="https://www.google.com/s2/favicons?domain=${bookmark.url}" alt="icon" class="favicon">
+                        <div class="bookmark-info">
+                            <a href="${bookmark.url}" target="_blank">${bookmark.name}</a>
+                            <span class="category-tag">${bookmark.category}</span>
+                        </div>
+                    </div>
+                    <div class="bookmark-actions">
+                        <button onclick="this.parentElement.parentElement.remove(); saveBookmarks()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                bookmarksList.appendChild(bookmarkElement);
+            });
+        }
+
+        // 搜索和筛选功能
+        function filterBookmarks() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const bookmarks = document.querySelectorAll('.bookmark-item');
+
+            bookmarks.forEach(bookmark => {
+                const name = bookmark.querySelector('a').textContent.toLowerCase();
+                const bookmarkCategory = bookmark.dataset.category;
+                const matchesSearch = name.includes(searchText);
+                const matchesCategory = category === 'all' || bookmarkCategory === category;
+
+                bookmark.style.display = matchesSearch && matchesCategory ? 'flex' : 'none';
+            });
+        }
+
+        // 添加搜索和筛选事件监听
+        document.getElementById('searchInput').addEventListener('input', filterBookmarks);
+        document.getElementById('categoryFilter').addEventListener('change', filterBookmarks);
+
+        // 页面加载时读取保存的书签
+        window.onload = loadBookmarks;
+    </script>
+</body>
+</html> 

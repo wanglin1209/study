@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background-color: #f5f5f5;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 深色模式 */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #2196F3;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #666;
+    padding: 10px;
+}
+
+.dark-mode .theme-toggle {
+    color: #fff;
+}
+
+.add-bookmark {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dark-mode .add-bookmark {
+    background: #2d2d2d;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.dark-mode input,
+.dark-mode select {
+    background: #3d3d3d;
+    border-color: #444;
+    color: white;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #1976D2;
+}
+
+.bookmark-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.dark-mode .bookmark-item {
+    background: #2d2d2d;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.bookmark-item:hover {
+    transform: translateY(-2px);
+}
+
+.bookmark-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.favicon {
+    width: 16px;
+    height: 16px;
+}
+
+.bookmark-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.bookmark-item a {
+    color: #2196F3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.dark-mode .bookmark-item a {
+    color: #64B5F6;
+}
+
+.bookmark-item a:hover {
+    text-decoration: underline;
+}
+
+.category-tag {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.dark-mode .category-tag {
+    color: #aaa;
+}
+
+.bookmark-actions button {
+    background-color: #ff4444;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.bookmark-actions button:hover {
+    background-color: #cc0000;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .add-bookmark {
+        flex-direction: column;
+    }
+
+    input, select, button {
+        width: 100%;
+    }
+} 
+} 

@@ -182,12 +182,73 @@ button:hover {
         padding: 10px;
     }
 
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
     .add-bookmark {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .search-bar {
         flex-direction: column;
     }
 
     input, select, button {
         width: 100%;
+        min-width: unset;
+    }
+
+    .bookmark-item {
+        padding: 12px;
+    }
+
+    .bookmark-content {
+        flex: 1;
+        min-width: 0; /* 防止内容溢出 */
+    }
+
+    .bookmark-info {
+        min-width: 0;
+    }
+
+    .bookmark-info a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+
+    .bookmark-actions button {
+        padding: 8px;
+        margin-left: 10px;
+    }
+
+    .theme-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bookmark-info a {
+        max-width: 150px;
+    }
+
+    h1 {
+        font-size: 1.3em;
+    }
+
+    .bookmark-item {
+        margin-bottom: 8px;
     }
 } 
 } 
